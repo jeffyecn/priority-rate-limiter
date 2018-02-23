@@ -1,14 +1,10 @@
 package com.langcode.ratelimiter;
 
 import com.google.common.util.concurrent.RateLimiter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 public class PriorityRateLimiter {
-
-    private final static Logger LOG = LoggerFactory.getLogger(PriorityRateLimiter.class);
 
     public static PriorityRateLimiter create(double permitsPerSecond) {
         return create(permitsPerSecond, 0.8);
@@ -21,7 +17,7 @@ public class PriorityRateLimiter {
         return new PriorityRateLimiter(permitsPerSecond, maxReservePercentage);
     }
 
-    protected final double minReservePercentage = 0.1;
+    protected final double minReservePercentage = 0.01;
     protected final double maxReservePercentage;
     protected final RateLimiter highPriorityRateLimiter;
     protected final RateLimiter regularRateLimiter;
@@ -64,11 +60,11 @@ public class PriorityRateLimiter {
     }
 
     protected void updateReserveIfNeed() {
-        if ( System.currentTimeMillis() < nextCheckTime ) {
+        if ( System.currentTimeMillis() > nextCheckTime ) {
             boolean needUpdate = false;
             long span = 0;
             synchronized (this) {
-                if ( System.currentTimeMillis() < nextCheckTime ) {
+                if ( System.currentTimeMillis() > nextCheckTime ) {
                     span = System.currentTimeMillis() - nextCheckTime + checkReserveInterval;
                     nextCheckTime = System.currentTimeMillis() + checkReserveInterval;
                     needUpdate = true;
