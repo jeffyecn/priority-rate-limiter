@@ -24,6 +24,7 @@
         <plugin.source.version>2.2.1</plugin.source.version>
         <!-- dependency version -->
         <guava.version>24.0-jre</guava.version>
+        <junit.version>4.12</junit.version>
         <slf4j.version>1.7.25</slf4j.version>
     </properties>
     <repositories>
@@ -50,7 +51,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
