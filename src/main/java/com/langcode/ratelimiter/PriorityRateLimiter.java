@@ -59,6 +59,10 @@ public class PriorityRateLimiter {
         applyReserveRate(newQPS, reserveRate);
     }
 
+    public double getRate() {
+        return totalPermitsPerSecond;
+    }
+
     protected void updateReserveIfNeed() {
         if ( System.currentTimeMillis() > nextCheckTime ) {
             boolean needUpdate = false;
